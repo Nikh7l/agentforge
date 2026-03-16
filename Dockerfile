@@ -6,12 +6,13 @@ WORKDIR /app
 # Install uv for fast dependency resolution
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
-# Copy dependency files first for layer caching
-COPY pyproject.toml ./
+# Copy project metadata + source for build
+COPY pyproject.toml README.md ./
+COPY agentforge/ ./agentforge/
 
 # Create venv and install dependencies
 RUN uv venv /app/.venv && \
-    uv pip install --python /app/.venv/bin/python -e "."
+    uv pip install --python /app/.venv/bin/python .
 
 # ── Runtime stage ──────────────────────────────────────────────────────
 FROM python:3.14-slim AS runtime
