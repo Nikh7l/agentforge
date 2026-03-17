@@ -10,6 +10,5 @@ data/
 .ruff_cache/
 .git/
 .gitignore
-README.md
 tests/
 *.md
